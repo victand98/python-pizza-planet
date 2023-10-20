@@ -1,0 +1,3 @@
+[submodule "ui"]
+	path = ui
+	url = https://github.com/victand98/pizza-planet-ui
