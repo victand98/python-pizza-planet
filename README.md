@@ -10,6 +10,7 @@ This is an example software for a pizzeria that takes customizable orders.
 - [Running the backend project](#running-the-backend-project)
 - [Running the frontend](#running-the-frontend)
 - [Testing the backend](#testing-the-backend)
+- [Populate the database](#populate-the-database)
 
 ## Getting started
 
@@ -40,7 +41,7 @@ python3 -m venv venv
 _For linux/MacOS users:_
 
 ```bash
-source venv/bin/activate 
+source venv/bin/activate
 ```
 
 _For windows users:_
@@ -68,7 +69,7 @@ python3 manage.py db upgrade
 _For linux/MacOS users:_
 
 ```bash
-export FLASK_ENV=development 
+export FLASK_ENV=development
 ```
 
 _For windows users:_
@@ -111,4 +112,14 @@ ext install ritwickdey.LiveServer
 
 ```bash
 python3 manage.py test
+```
+
+### Populate the database
+
+- Make sure that you have `faker` installed
+
+- Run the populate database command
+
+```bash
+python3 manage.py populate_database
 ```
