@@ -1,6 +1,8 @@
 from typing import Any, Optional, Tuple
+
 from sqlalchemy.exc import SQLAlchemyError
-from ..repositories.managers import BaseManager
+
+from ..repositories import BaseManager
 
 
 class BaseController:
@@ -28,11 +30,10 @@ class BaseController:
             return None, str(ex)
 
     @classmethod
-    def update(cls, new_values: dict) -> Tuple[Any, Optional[str]]:
+    def update(cls, _id: Any, new_values: dict) -> Tuple[Any, Optional[str]]:
         try:
-            _id = new_values.pop('_id', None)
             if not _id:
-                return None, 'Error: No id was provided for update'
+                return None, "Error: No id was provided for update"
             return cls.manager.update(_id, new_values), None
         except (SQLAlchemyError, RuntimeError) as ex:
             return None, str(ex)
