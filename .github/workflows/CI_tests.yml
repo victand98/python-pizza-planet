@@ -1,22 +1,21 @@
 name: CI test coverage
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        python-version: [3.x]
-
     steps:
       - uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v3
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.10"
 
       - name: Source Virtualenv
         run: |
@@ -25,10 +24,7 @@ jobs:
           source venv/bin/activate
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Run tests
-        run: |
-          export PYTHONPATH=src
-          python3 manage.py test
+        run: python3 manage.py test
