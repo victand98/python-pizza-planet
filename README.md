@@ -11,6 +11,7 @@ This is an example software for a pizzeria that takes customizable orders.
 - [Running the frontend](#running-the-frontend)
 - [Testing the backend](#testing-the-backend)
 - [Populate the database](#populate-the-database)
+- [Install the git hook scripts](#install-the-git-hook-scripts)
 
 ## Getting started
 
@@ -122,4 +123,14 @@ python3 manage.py test
 
 ```bash
 python3 manage.py populate_database
+```
+
+### Install the git hook scripts
+
+- Make sure that you have `pre-commit` installed
+
+- Run the command to set up the git hook scripts
+
+```bash
+pre-commit install
 ```
