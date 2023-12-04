@@ -2,9 +2,10 @@ from typing import Any, List, Optional, Sequence
 
 from sqlalchemy.sql import column, text
 
-from .models import Beverage, Ingredient, Order, OrderDetail, Size, db
+from .models import Beverage, Element, Ingredient, Order, OrderDetail, Size, db
 from .serializers import (
     BeverageSerializer,
+    ElementSerializer,
     IngredientSerializer,
     OrderSerializer,
     SizeSerializer,
@@ -44,6 +45,17 @@ class BaseManager:
         return cls.get_by_id(_id)
 
 
+class ElementManager(BaseManager):
+    model = Element
+    serializer = ElementSerializer
+
+    @classmethod
+    def get_by_id_list(cls, ids: Sequence):
+        return (
+            cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
+        )
+
+
 class BeverageManager(BaseManager):
     model = Beverage
     serializer = BeverageSerializer
@@ -76,12 +88,7 @@ class OrderManager(BaseManager):
     serializer = OrderSerializer
 
     @classmethod
-    def create(
-        cls,
-        order_data: dict,
-        ingredients: List[Ingredient],
-        beverages: List[Beverage],
-    ):
+    def create(cls, order_data: dict, elements: List[Element]):
         new_order = cls.model(**order_data)
         cls.session.add(new_order)
         cls.session.flush()
@@ -90,20 +97,10 @@ class OrderManager(BaseManager):
             (
                 OrderDetail(
                     order_id=new_order._id,
-                    ingredient_id=ingredient._id,
-                    ingredient_price=ingredient.price,
+                    element_id=element._id,
+                    element_price=element.price,
                 )
-                for ingredient in ingredients
-            )
-        )
-        cls.session.add_all(
-            (
-                OrderDetail(
-                    order_id=new_order._id,
-                    beverage_id=beverage._id,
-                    beverage_price=beverage.price,
-                )
-                for beverage in beverages
+                for element in elements
             )
         )
 
